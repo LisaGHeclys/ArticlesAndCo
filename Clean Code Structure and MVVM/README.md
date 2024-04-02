@@ -9,7 +9,7 @@
 
 ## A - Brief overview of clean code principles
 
-"Clean code" is a concept that refers to writing code that is readable, understandable, maintainable, and easily modifiable. The main objective of clean code is to make the source code clear and explicit, so it's easy for developers to understand and maintain throughout the project lifecycle.
+"Clean code" is a concept that refers to writing code that is readable, understandable, maintainable, and easily modifiable. The main objective of clean code is to make the source code clear and explicit, so it's easy for developers to understand and maintain throughout the project lifecycle. A clean base would also make it easier to introduce changes in a clear way. The ‘soft’ attribute of code can continue to support changes in business without the need for it to be replaced (which can be costly and disruptive for organizations), also guaranteeing it's longetivity.
 
 ## B - Introduction to MVVM architecture
 
@@ -92,7 +92,7 @@ Understanding MVVM, with its additional layer of abstraction and advanced featur
 
 - **Over-engineering**
 
-Over-engineering, adding unnecessary features, leads to bloated, slow applications and accumulates "technical debt", which becomes harder to manage as the application grows.
+Over-engineering, adding unnecessary features, leads to bloated, slow and small applications and accumulates "technical debt", which becomes harder to manage as the application grows. Here, I want to emphasize that over-engineering only concern non evolutive project. It's best to use clean code for projects that will tend evolve and change in the future.
 
 ## E - How MVVM promotes clean code practices
 
