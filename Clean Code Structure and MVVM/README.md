@@ -46,19 +46,140 @@ By employing clean architecture, you can design applications with very low coupl
 
 The MVVM (Model-View-ViewModel) architecture is a software architectural model that is widely used in mobile application development. It aims to clearly separate business logic from the user interface, which facilitates maintenance, testing, and code reusability.
 
+```tsx
+ProjectInTypescript
+   |--src
+      |--core
+         |--assets
+         |--components
+         |--navigation
+         |--utils
+      |--features
+         |--data
+         |--domain
+         |--model
+         |--presentation
+            |--ui
+   |App.tsx
+```
+
 ## B - Components of MVVM:
 
 - **Model**
 
 The model represents the data and business logic of your application. It can include data objects, network services, databases or any other data source. The model has no direct dependency with the user interface components.
 
+
+```tsx
+ProjectInTypescript
+   |--src
+      |--features
+         |--data
+         |--model
+```
+```tsx
+//Example in a React Native (TSX) Project
+class AuthenticationRepositoryImpl implements AuthenticationRepository {
+  async login(email: string, pwd: string, callback: Callback): Promise<void> {
+    try {
+      const response = await fetch(`${SERVER_URL}/link`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+          email: email,
+          password: pwd,
+        }),
+      })
+      callback.onSuccess(response);
+    } catch (error: any) {
+      callback.onFailure(`An error occurred while logging the user ${error}`);
+      //toSetup Toaster for mobile
+    }
+  }
+  //...
+}
+```
+
 - **View**
 
 The view is responsible for displaying user interface elements and interacting with the user. In a mobile context, this could correspond to an activity, a fragment, or a widget. The view responds to user actions and communicates with the ViewModel to retrieve or display the necessary data.
 
+```tsx
+ProjectInTypescript
+   |--src
+      |--features
+         |--presentation
+            |--ui
+                |--authentication
+```
+```tsx
+//Example in a React Native (TSX) Project
+const LoginScreen = ({navigation}: any) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+    try {
+      await AuthenticationRepositoryImpl.login(email, password, {
+        onSuccess: async (response) => {
+          try {
+            const resToJSON = await response.json();
+            if (response.ok) {
+              await AsyncStorage.setItem("token", resToJSON?.accessToken)
+              navigation.navigate("UserPage");
+            } else {
+              throw new Error(resToJSON?.Message || 'Unknown error.');
+            }
+          } catch (jsonError) {
+            setError(true);
+          }
+        },
+        onFailure: (error) => {
+          console.error('Login failed. Error:', error);
+        },
+      });
+    } catch (error) {
+      console.error('Unexpected error during login:', error);
+    } finally {
+      setError(false);
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <View>
+        <InputComponent value={email} placeholder={"Email"} setValue={setEmail}/>
+        <InputComponent value={password} placeholder={"Password"} setValue={setPassword} pwd/>
+        <ButtonComponent title={"Log In"} onPress={handleLogin} />
+      </View>
+      {isLoading && <LoadingComponent/>}
+    </>
+  )
+}
+```
+
 - **ViewModel**
 
 The ViewModel acts as an intermediate layer between the view and the model. It manages the presentation logic and provides the necessary data to the view. The ViewModel does not directly depend on the view, which makes it independent of the platform. It exposes properties and commands that the view can bind to update its state and react to user events.
+
+```tsx
+ProjectInTypescript
+   |--src
+      |--features
+         |--domain
+```
+```tsx
+//Example in a React Native (TSX) Project
+export interface AuthenticationRepository {
+  login: (email: string, pwd: string, callback: Callback) => void;
+  //...
+}
+```
+
 
 ## C - Advantages of MVVM
 
@@ -116,11 +237,30 @@ In order to deliver software that is of high quality, reliable, maintainable, an
 - Views should solely focus on UI presentation and user interaction.
 - ViewModels should handle data binding, logic for processing user inputs, and communication with the Model.
 
+```tsx
+//to avoid
+const processInput = () => { 
+    // long list of instructions
+}
+
+//better
+const validateInput = () => { 
+    // validation logic ONLY
+}
+```
+
 ## C - Naming conventions
 
 - Use clear and descriptive names for classes, methods, and variables.
 - Follow consistent naming conventions throughout the project to enhance readability and maintainability.
 - Choose meaningful names that accurately reflect the purpose and functionality of each component.
+
+```tsx
+const a = calculateValue() //to avoid
+
+const result = calculateFinalValue() //better
+```
+
 
 ## D - Use of meaningful comments
 
