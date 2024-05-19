@@ -25,7 +25,7 @@ The user journey is a visual representation of the user's experience of a produc
 
 User journeys are visual representations of the steps that users take to achieve a specific outcome with your product or service. They can be simple or complex, depending on the scope and level of detail you want to capture. User journeys show the user's actions, thoughts, emotions, and touchpoints with your product or service, as well as the opportunities and challenges they face along the way.
 
-## B - Why are is it important ?
+## B - Why is it important ?
 
 User journeys are important because they help you empathize with your users and see your product or service from their perspective. They also help you identify the gaps and problems in your current user experience, and generate ideas for solutions and improvements. User journeys can help you communicate your design vision and strategy to your stakeholders, team members, and clients, and demonstrate the value and impact of your UX work.
 
